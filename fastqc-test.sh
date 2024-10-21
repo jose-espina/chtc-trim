@@ -6,22 +6,25 @@
 # mkdir
 mkdir input output
 
-# assign filename to $1
-filename=$1
+# assign fastq to $1
+fastq=$1
 
-# copy $filename from staging to input directory
-cp -r /staging/groups/roopra_group/jespina/$filename input
+# grab base filename for naming outputs
+base = `basename $fastq .fastq.gz`
+
+# copy $fastq from staging to input directory
+cp -r /staging/groups/roopra_group/jespina/$fastq input
 
 # print fastq filename
-echo $filename
+echo $fastq
 echo "Running fastQC"
 
 # run initial fastqc
-fastqc input/$filename -o output 
+fastqc input/$fastq -o output 
 
 # tar output and copy to staging
-tar -czvf $1_fastqc_output.tar.gz output/
-mv $1_fastqc_output.tar.gz /staging/groups/roopra_group/jespina
+tar -czvf $base_fastqc_output.tar.gz output/
+mv $base_fastqc_output.tar.gz /staging/groups/roopra_group/jespina
 
 # before script exits, remove files from working directory
 rm -r input
