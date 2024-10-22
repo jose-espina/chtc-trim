@@ -4,13 +4,14 @@
 # CHTC fastqc job test
 
 # mkdir
+export HOME=$PWD
 mkdir input output
 
 # assign fastq to $1
 fastq=$1
 
 # grab base filename for naming outputs
-base = `basename $fastq .fastq.gz`
+base=`basename $fastq .fastq.gz`
 
 # copy $fastq from staging to input directory
 cp -r /staging/groups/roopra_group/jespina/$fastq input
@@ -23,8 +24,8 @@ echo "Running fastQC"
 fastqc input/$fastq -o output 
 
 # tar output and copy to staging
-tar -czvf $base_fastqc_output.tar.gz output/
-mv $base_fastqc_output.tar.gz /staging/groups/roopra_group/jespina
+tar -czvf ${base}_fastqc_output.tar.gz output/
+mv ${base}_fastqc_output.tar.gz /staging/groups/roopra_group/jespina/
 
 # before script exits, remove files from working directory
 rm -r input
