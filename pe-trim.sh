@@ -5,35 +5,37 @@
 # Usage: pe-trim.sh <R1-fastq> <R2-fastq>
 
 # mkdir
-mkdir input output/initial_QC output/trimmed
+mkdir -p input output/initial_QC output/trimmed
+export HOME=$PWD
 
-# assign fq_1 to $1 and fq_2 to $2
-fq_1=$1
-fq_2=$2
-
-# grab base filename for naming outputs
-base=`basename $fq_1 _R1_001.fastq.gz`
+# assign samplename to $1
+# assign fastq1 to $2 and fastq2 to $3
+samplename=$1
+fastq1=$2
+fastq2=$3
 
 # copy reads1 and reads2 from staging to input directory
-cp -r /staging/groups/roopra_group/jespina/$fq_1 /staging/groups/roopra_group/jespina/$fq_2 input
+cp -r /staging/groups/roopra_group/jespina/$fastq1 input
+cp -r /staging/groups/roopra_group/jespina/$fastq2 input
 
 # print fastq filename
-echo $fq_1 "and" $fq_2
-echo "Running fastQC"
+echo $fastq1 " and " $fastq2
+echo "Running initial fastQC on " $samplename " (paired-end)"
 
 # run initial fastqc
-fastqc input/$fq_1 input/$fq_2 -o output/initial_QC 
+fastqc ~/input/$fastq1 ~/input/$fastq2 -o output/initial_QC 
+multiqc -o output/initial_QC output/initial_QC
 
 # trim illumina adapters
-echo "Trimming"
-trim_galore --paired --illumina --fastqc -o output/trimmed input/$fq_1 input/$fq_2  
+echo "Trimming " $samplename
+trim_galore --paired --illumina --fastqc --cores 4 -o output/trimmed ~/input/$fastq1 ~/input/$fastq2  
+multiqc -o output/trimmed output/trimmed
 
 # tar output and copy to staging
-tar -czvf ${base}_fastqc.tar.gz output/
-mv ${base}_fastqc.tar.gz /staging/groups/roopra_group/jespina
+tar -czvf ${samplename}_trimmed.tar.gz output/
+mv ${samplename}_trimmed.tar.gz /staging/groups/roopra_group/jespina
 
 # before script exits, remove files from working directory
-rm -r input
-rm -r output
+rm -r input output
 
 ###END
