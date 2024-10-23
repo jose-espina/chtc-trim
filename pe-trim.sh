@@ -2,7 +2,7 @@
 #
 # pe-trim.sh
 # CHTC initial fastqc, trimming, and post-fastqc for paired end reads
-# Usage: pe-trim.sh <R1-fastq> <R2-fastq>
+# Usage: pe-trim.sh <samplename> <R1-fastq> <R2-fastq>
 
 # mkdir
 mkdir -p input output/initial_QC output/trimmed
