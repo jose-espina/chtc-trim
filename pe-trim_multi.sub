@@ -7,7 +7,7 @@
 Requirements = (Target.hasCHTCStaging == true)
 
 # Provide HTCondor with the name of the Docker container
-container_image = docker://jespina/chtc-qc:dev
+container_image = docker://jespina/chtc-trim:1.0
 universe = container
 
 # Specify executable and arguments
