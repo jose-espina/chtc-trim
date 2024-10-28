@@ -31,7 +31,15 @@ echo "Trimming " $samplename
 trim_galore --paired --illumina --fastqc --cores 4 -o output/trimmed ~/input/$fastq1 ~/input/$fastq2  
 multiqc -o output/trimmed output/trimmed
 
-# tar output and copy to staging
+# change filenames of trimmed fq files
+cd output/trimmed
+r1=`basename *_val_1.fq.gz _val_1.fq.gz`
+r2=`basename *_val_2.fq.gz _val_2.fq.gz`
+mv *_val_1.fq.gz ${r1}_trimmed.fq.gz
+mv *_val_2.fq.gz ${r2}_trimmed.fq.gz
+cd ~
+
+# tar output and move to staging
 tar -czvf ${samplename}_trimmed.tar.gz output/
 mv ${samplename}_trimmed.tar.gz /staging/groups/roopra_group/jespina
 
