@@ -5,6 +5,7 @@
 # Usage: pe-trim.sh <samplename> <R1-fastq> <R2-fastq>
 
 # mkdir
+export HOME=$PWD
 mkdir -p input output/initial_QC output/trimmed
 
 # assign samplename to $1
