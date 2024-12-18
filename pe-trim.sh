@@ -15,8 +15,8 @@ fastq1=$2
 fastq2=$3
 
 # copy reads1 and reads2 from staging to input directory
-cp -r /staging/groups/roopra_group/jespina/$fastq1 input
-cp -r /staging/groups/roopra_group/jespina/$fastq2 input
+cp -r /staging/jespina/$fastq1 input
+cp -r /staging/jespina/$fastq2 input
 
 # print fastq filename
 echo $fastq1 " and " $fastq2
@@ -41,14 +41,14 @@ cd ~
 
 # tar trimmed.fq files and move to staging for alignment
 tar -czvf ${samplename}_trimmed_fq.tar.gz output/trimmed/${r1}_trimmed.fq.gz output/trimmed/${r2}_trimmed.fq.gz
-mv ${samplename}_trimmed_fq.tar.gz /staging/groups/roopra_group/jespina
+mv ${samplename}_trimmed_fq.tar.gz /staging/jespina
 
 # remove trimmed.fq.gz files before taring output folder
 rm output/trimmed/${r1}_trimmed.fq.gz output/trimmed/${r2}_trimmed.fq.gz
 
 # tar output and move to staging
 tar -czvf ${samplename}_trimmed.tar.gz output/
-mv ${samplename}_trimmed.tar.gz /staging/groups/roopra_group/jespina
+mv ${samplename}_trimmed.tar.gz /staging/jespina
 
 # before script exits, remove files from working directory
 rm -r input output
